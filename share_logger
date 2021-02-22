@@ -11,7 +11,11 @@ if [ -e shares.log ]; then
 fi
 resul=`echo "$current_stat" | awk '{print $1, $2, $3, $6, $7}' | rev |  cut -c 6- | rev | sort -k4 -t" " -n -r | head -10`
 clear
-temp=`cat best.shares`
+if [ -e  $(pwd)/best.shares ]; then
+ temp=`cat best.shares`
+else
+ temp=""
+fi
 now=`echo "Share_Size detecter by mostnonameuser for teamredminer: \n$resul"`
 if [ "$temp" != "$now" ]; then
  temp=$now
