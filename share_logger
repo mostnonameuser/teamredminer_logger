@@ -22,7 +22,7 @@ if [ "$temp" != "$now" ]; then
  echo "$temp"
  echo "$temp" > best.shares
 else 
- echo "$temp" | tail -"$shares_num"
+ echo "$temp"
  echo "No new largeDiff shares found"
 fi
 sleep 5
