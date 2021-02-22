@@ -24,7 +24,7 @@ if [ "$temp" != "$now" ]; then
 else 
  echo "Share_Size detecter by mostnonameuser for teamredminer:"
  echo "No new largeDiff shares found"
- echo "$temp" | tail -"$shares_num"
+ echo "$temp" | tail -"$(($shares_num - 1 ))"
 fi
 sleep 5
 done
