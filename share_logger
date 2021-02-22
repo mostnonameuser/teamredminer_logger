@@ -1,0 +1,41 @@
+#!/bin/sh
+#cat /run/hive/miner.1 | grep accepted | awk '{print $8}' | cut -d ":" -f 2
+#cat /run/hive/miner.1 | grep accepted | awk '{print $7, $12, $13, $14}'
+#echo "Share_Size detecter by mostnonameuser for teamredminer"
+rm -f shares.log
+#rm -f /run/hive/miner.1
+miner_id=`echo "miner.1"`
+shares_num=10
+while true
+do
+ current_stat=`cat /var/log/miner/teamredminer/teamredminer.log | grep accepted | awk '{print $1, $2, $7, $8, $12, $13, $14}'`
+if [ -e shares.log ]; then
+ last_time=`cat shares.log | tail -1 | awk '{print $2}'`
+ added_stat=`echo "$current_stat" | awk "go {print}/$last_time/{go = 1}"`
+ share_time=`echo "$added_stat" | tail -1 | awk '{print $2}'`
+ echo "last logged time $last_time last miner share $share_time"
+# length=$(expr length "$added_stat")
+# if [ $length  -gt 0 ]; then
+#  echo "$added_stat" >> shares.log
+# fi
+#else
+# echo "$current_stat" > shares.log
+fi
+resul=`echo "$current_stat" | awk '{print $1, $2, $3, $6, $7}' | rev |  cut -c 6- | rev | sort -k4 -t" " -n -r | head -10`
+clear
+temp=`cat best.shares`
+now=`echo "Share_Size detecter by mostnonameuser for teamredminer: \n$resul"`
+if [ "$temp" != "$now" ]; then
+ temp=$now
+ echo "$temp"
+ echo "$temp" > best.shares
+else 
+ echo "Share_Size detecter by mostnonameuser for teamredminer:"
+ echo "No new largeDiff shares found"
+ echo "$temp" | tail -10
+ 
+fi
+
+#echo  "Share_Size detecter by mostnonameuser for teamredminer: \n$resul" > best.shares
+sleep 5
+done
