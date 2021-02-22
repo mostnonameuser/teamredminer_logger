@@ -9,7 +9,7 @@ if [ -e shares.log ]; then
  share_time=`echo "$added_stat" | tail -1 | awk '{print $2}'`
  echo "last logged time $last_time last miner share $share_time"
 fi
-resul=`echo "$current_stat" | awk '{print $1, $2, $3, $6, $7}' | rev |  cut -c 6- | rev | sort -k4 -t" " -n -r | head -10`
+resul=`echo "$current_stat" | awk '{print $1, $2, $3, $6, $7}' | rev |  cut -c 6- | rev | sort -k4 -t" " -n -r | head -"$shares_num"`
 clear
 if [ -e  $(pwd)/best.shares ]; then
  temp=`cat best.shares`
